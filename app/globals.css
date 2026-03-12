@@ -9,14 +9,14 @@
 
 :root {
   /* Primary colors - Islamic green palette */
-  --primary-green: #1a7a3a;
-  --primary-green-dark: #145e2d;
-  --primary-green-light: #2a9d4e;
-  --primary-green-bg: #e8f5ec;
+  --primary-green: #0f5825;
+  --primary-green-dark: #0a3d19;
+  --primary-green-light: #167a35;
+  --primary-green-bg: #e0ece4;
 
   /* Dark header */
-  --header-bg: #1a1a2e;
-  --header-bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  --header-bg: #09152b;
+  --header-bg-gradient: linear-gradient(135deg, #061124 0%, #0a2044 50%, #040e21 100%);
 
   /* Gold accents */
   --gold: #d4a843;

@@ -49,6 +49,10 @@ export default function GallerySection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const thumbnailsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // For responsive Facebook Embedded Page plugin
+  const [fbWidth, setFbWidth] = useState(340);
+  const fbContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (thumbnailsRef.current[activeIndex]) {
       thumbnailsRef.current[activeIndex]?.scrollIntoView({
@@ -58,6 +62,26 @@ export default function GallerySection() {
       });
     }
   }, [activeIndex]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (fbContainerRef.current) {
+        const parentWidth = fbContainerRef.current.offsetWidth;
+        // 32 is padding (16px on each side). FB min=180 max=500
+        const calculatedWidth = Math.floor(parentWidth - 32);
+        const newWidth = Math.min(Math.max(calculatedWidth, 180), 500);
+        setFbWidth(newWidth);
+      }
+    };
+
+    // Delay initial calculation slightly to ensure CSS grid has rendered
+    const timeoutId = setTimeout(handleResize, 100);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <section className="gallery-section" id="gallery">
@@ -142,16 +166,38 @@ export default function GallerySection() {
           </div>
 
           {/* Facebook Embed */}
-          <div className="facebook-embed" style={{ 
+          <div ref={fbContainerRef} style={{ 
             display: "flex", 
             flexDirection: "column",
-            height: "100%" 
+            height: "100%",
+            background: "linear-gradient(to bottom, #ffffff, #f0f2f5)",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+            border: "1px solid rgba(0,0,0,0.05)",
+            overflow: "hidden"
           }}>
-            <div className="facebook-embed-header">
-              <span className="fb-icon">
+            <div className="facebook-embed-header" style={{
+              padding: "16px 20px",
+              background: "linear-gradient(135deg, #0d5bc5 0%, #0a4090 100%)",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              fontWeight: "600",
+              fontSize: "1.05rem",
+              boxShadow: "0 2px 10px rgba(24, 119, 242, 0.2)"
+            }}>
+              <span className="fb-icon" style={{ 
+                background: "white", 
+                borderRadius: "50%", 
+                padding: "4px", 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "center" 
+              }}>
                 <svg
-                  width="20"
-                  height="20"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="#1877f2"
                 >
@@ -159,18 +205,60 @@ export default function GallerySection() {
                 </svg>
               </span>
               আমাদের ফেসবুক পেজ
+              <a 
+                href="https://www.facebook.com/profile.php?id=61555232242818" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                  marginLeft: "auto",
+                  fontSize: "0.8rem",
+                  background: "rgba(255,255,255,0.2)",
+                  padding: "4px 10px",
+                  borderRadius: "20px",
+                  color: "white",
+                  textDecoration: "none",
+                  transition: "background 0.2s"
+                }}
+              >
+                Follow Page
+              </a>
             </div>
-            <div className="facebook-embed-body" style={{ padding: 0, flex: 1 }}>
-              <iframe
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61555232242818&tabs=timeline&width=500&height=550&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                width="100%"
-                height="100%"
-                style={{ border: "none", overflow: "hidden", minHeight: "550px" }}
-                scrolling="no"
-                frameBorder="0"
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              ></iframe>
+            
+            <div className="facebook-embed-body" style={{ 
+              padding: "16px", 
+              flex: 1, 
+              display: "flex", 
+              justifyContent: "center",
+              alignItems: "flex-start",
+              width: "100%",
+              overflowX: "hidden"
+            }}>
+              <div style={{
+                width: `${fbWidth}px`,
+                background: "white",
+                borderRadius: "8px",
+                overflow: "hidden",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                display: "flex",
+                justifyContent: "center",
+                transition: "width 0.3s ease",
+              }}>
+                <iframe
+                  key={fbWidth} // Force reloading iframe when width changes for perfect alignment
+                  src={`https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61555232242818&tabs=timeline&width=${fbWidth}&height=550&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId`}
+                  width={fbWidth}
+                  height="550"
+                  style={{ 
+                    border: "none", 
+                    overflow: "hidden",
+                    display: "block"
+                  }}
+                  scrolling="no"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                ></iframe>
+              </div>
             </div>
           </div>
         </div>
