@@ -79,7 +79,7 @@ export default function OnudanContent() {
               <strong>বিকাশ নম্বর: <br/> <span style={{ color: '#df146e', fontSize: '1.25rem' }}>01347351468</span></strong>
             </p>
             <p className="onudan-qr-desc" style={{ marginTop: '15px' }}>
-              অনুদান পাঠাতে উপরের কিউআর কোডটি স্ক্যান করুন অথবা সরাসরি আমাদের বিকাশ নম্বরে সেন্ড মানি করুন। 
+              অনুদান পাঠাতে উপরের কিউআর কোডটি স্ক্যান করুন অথবা সরাসরি আমাদের বিকাশ নম্বরে ‘মার্চেন্ট পেমেন্ট’ (Merchant Payment) করুন। 
             </p>
           </div>
         ) : (
