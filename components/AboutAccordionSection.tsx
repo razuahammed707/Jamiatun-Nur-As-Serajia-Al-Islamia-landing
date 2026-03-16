@@ -8,6 +8,16 @@ export default function AboutAccordionSection() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // Set initial active section based on URL hash (e.g. #laksho-uddesho, #mulniti, #bibhag)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const hash = window.location.hash.replace("#", "");
+    if (hash === "laksho-uddesho" || hash === "mulniti" || hash === "bibhag") {
+      setActiveSection(hash);
+    }
+  }, []);
+
   const handleSectionClick = (id: string | null) => {
     setActiveSection((prev) => (prev === id ? null : id));
   };

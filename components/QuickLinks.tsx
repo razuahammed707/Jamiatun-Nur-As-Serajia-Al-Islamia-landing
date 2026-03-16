@@ -3,6 +3,7 @@
 const LINKS = [
   { id: "laksho-uddesho", label: "লক্ষ্য ও উদ্দেশ্য" },
   { id: "mulniti", label: "মূলনীতি" },
+  { id: "bibhag", label: "বিভাগ" },
 ] as const;
 
 type Props = {

@@ -39,3 +39,39 @@ enum PostType {
   NEWS
   NOTICE
 }
+
+model Donation {
+  id              String         @id @default(cuid())
+  name            String?        // Null if anonymous
+  phone           String?        // Null if anonymous
+  address         String?        // Null if anonymous
+  sector          String         // e.g. zakat, sadaqah
+  amount          Float
+  trxId           String?        // bKash transaction ID
+  bankAccount     String?        // Bank account number
+  paymentMethod   String         // 'bkash' or 'bank'
+  isAnonymous     Boolean        @default(false)
+  status          DonationStatus @default(PENDING)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum DonationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model Video {
+  id        String   @id @default(cuid())
+  title     String
+  youtubeId String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+}
